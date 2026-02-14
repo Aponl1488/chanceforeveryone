@@ -157,8 +157,353 @@ input:focus, textarea:focus { border-color: var(--primary); background: rgba(255
 
 .btn-logout:hover { background: #e03e3e; }
 
+:root {
+    --bg-light: #f8fafc;
+    --border-color: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --accent-blue: #0066ff;
+}
+
+#dashboard {
+    background-color: var(--bg-light);
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.dashboard-header h1 {
+    font-size: 28px;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.dashboard-header .subtitle {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+/* Карточки */
+.roadmap-main-card, .cta-section-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Верхняя часть дорожной карты */
+.roadmap-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.roadmap-title {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.percent-badge {
+    background: var(--accent-blue);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* Прогресс-бар */
+.progress-container {
+    height: 8px;
+    background: #f1f5f9;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--accent-blue);
+    transition: width 0.3s ease;
+}
+
+/* Сетка шагов */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.step-card {
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+}
+
+.step-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.step-number {
+    font-size: 12px;
+    background: #f8fafc;
+    padding: 4px 8px;
+    border-radius: 6px;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+
+.step-link {
+    display: inline-block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* Нижняя панель */
+.cta-section-card {
+    text-align: center;
+    padding: 50px;
+}
+
+.cta-large-icon {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.btn-primary-dark {
+    background: #0f172a;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Базовый стиль кнопки в карточке */
+.step-link-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-main); /* Используем вашу переменную черного цвета */
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 12px;       /* Добавляем внутренние отступы для области подсветки */
+    margin-top: 10px;
+    margin-left: -12px;      /* Компенсируем отступ, чтобы текст визуально остался на месте */
+    display: inline-block;
+    border-radius: 8px;      /* Закругление как в меню */
+    transition: all 0.2s ease; /* Плавный переход */
+    text-decoration: none;
+}
+
+/* Эффект наведения (как на вкладке Панель) */
+.step-link-btn:hover {
+    background: rgba(0, 0, 0, 0.05); /* Легкий серый фон */
+    color: var(--primary);          /* Можно заменить на синий, если хотите акцент */
+    transform: translateX(5px);     /* Легкий сдвиг вправо для динамики */
+}
+
+/* Стиль для большой кнопки внизу, если нужно тоже добавить эффект */
+.btn-primary-dark {
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary-dark:hover {
+    background: #1e293b;
+    transform: translateY(-2px);    /* Легкое всплытие вверх */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Контейнер переключателя */
+.lang-switcher {
+    position: relative;
+    display: flex;
+    background: #e2e8f0; /* Светло-серый фон */
+    border-radius: 10px;
+    padding: 4px;
+    width: fit-content;
+    margin-bottom: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Общие стили для кнопок */
+.lang-switcher button {
+    position: relative;
+    z-index: 2; /* Поверх ползунка */
+    background: transparent;
+    border: none;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #64748b;
+    transition: color 0.3s ease;
+    width: 50px;
+}
+
+/* Цвет текста при активации */
+.lang-switcher button.active {
+    color: #ffffff;
+}
+
+/* Ползунок (серый акцент) */
+.lang-switcher .slider {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    width: 50px; /* Должна совпадать с шириной кнопки */
+    background: #475569; /* Темно-серый цвет ползунка */
+    border-radius: 7px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+/* Состояния ползунка */
+.lang-switcher[data-lang="en"] .slider {
+    transform: translateX(50px); /* Смещение в сторону EN */
+}
+
+
+
+/* ИИ */
 /* Chat UI */
-.chat-window { height: 400px; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.msg { padding: 12px 18px; border-radius: 15px; max-width: 75%; }
-.ai { background: var(--primary); align-self: flex-start; }
-.user { background: rgba(255,255,255,0.1); align-self: flex-end; }
+.interview-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.chat-window {
+    height: 500px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 20px;
+    padding: 30px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.msg {
+    padding: 14px 20px;
+    border-radius: 18px;
+    max-width: 85%;
+    word-wrap: break-word;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.ai-msg {
+    background: #ffffff;
+    color: #000000;
+    align-self: flex-start;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}\
+
+.ai-msg strong {
+    color: #000000;
+    font-weight: 700;
+}
+
+.user-msg {
+    background: var(--card-bg);
+    color: #ffffff;
+    align-self: flex-end;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    color: #000000;
+    font-size: 14px;
+    outline: none;
+    transition: var(--transition);
+}
+
+.chat-input-area input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.chat-input-area .btn-main {
+    padding: 14px 28px;
+    white-space: nowrap;
+}
+
+/* Interview Results */
+.page-hidden { display: none !important; }
+
+.results-container {
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease;
+}
+
+.profile-results-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.result-section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+}
+
+.result-section:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.result-section h3 {
+    color: #000000;
+    font-size: 16px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.result-section p {
+    color: #636363;
+    font-size: 14px;
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.result-section:nth-child(3) h3 {
+    color: white;
+}
+
+.result-section:nth-child(3) p {
+    color: white;
+}
