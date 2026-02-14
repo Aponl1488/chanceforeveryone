@@ -12,18 +12,19 @@
     <nav class="sidebar">
         <div class="logo">CFE<span>.ai</span></div>
         <ul class="nav-links">
-            <li onclick="showPage('dashboard')" id="l-home" class="active" data-key="nav_home">Панель</li>
-            <li onclick="handleProtectedAction('interview')" data-key="nav_interview">AI Інтерв'ю</li>
-            <li onclick="handleProtectedAction('education')" data-key="nav_edu">Освіта & Гранти</li>
-            <li onclick="handleProtectedAction('jobs')" data-key="nav_jobs">Пошук роботи</li>
-            <li onclick="handleProtectedAction('resume')" data-key="nav_resume">AI конструктор резюме</li>
+            <li onclick="showPage('dashboard')" id="l-home" class="active" data-key="nav_home" data-target="dashboard">Панель</li>
+            <li onclick="handleProtectedAction('interview')" data-key="nav_interview" data-target="ai-interview">AI Інтерв'ю</li>
+            <li onclick="handleProtectedAction('education')" data-key="nav_edu" data-target="education">Освіта & Гранти</li>
+            <li onclick="handleProtectedAction('jobs')" data-key="nav_jobs" data-target="jobs">Пошук роботи</li>
+            <li onclick="handleProtectedAction('resume')" data-key="nav_resume" data-target="resume">AI конструктор резюме</li>
+            <li onclick="handleProtectedAction('courses')" data-key="nav_courses" data-target="courses">Курси</li>
         </ul>
         
-        <div class="sidebar-footer">
-            <div class="lang-switcher">
-                <button onclick="changeLang('ua')">UA</button>
-                <button onclick="changeLang('en')">EN</button>
-            </div>
+        <div class="lang-switcher">
+            <div class="slider"></div>
+                <button onclick="changeLang('ua')" id="btn-ua">UA</button>
+                <button onclick="changeLang('en')" id="btn-en">EN</button>
+        </div>
             <div id="auth-status" class="user-profile-link" onclick="handleProtectedAction('profile')">
                 <span data-key="status_guest">Гість</span>
             </div>
@@ -32,22 +33,67 @@
 
     <main class="main-content">
         
-        <section id="dashboard" class="page active">
-            <header class="hero">
-                <h1 data-key="hero_title">Шанс для кожного</h1>
-                <p data-key="hero_desc">Ваш персональний шлях від навчання до працевлаштування за допомогою ШІ.</p>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3 data-key="stat_1_title">Гранти</h3>
-                        <p>500+ актуальних пропозицій</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 data-key="stat_2_title">Вакансії</h3>
-                        <p>Без досвіду роботи</p>
-                    </div>
+<section id="dashboard" class="page active">
+    <div class="dashboard-header">
+        <h1>Ваша Дорожня Карта Успіху</h1>
+    </div>
+
+    <div class="roadmap-main-card">
+        <div class="roadmap-top-row">
+            <div class="roadmap-title">
+                <span class="icon-badge">🎗️</span>
+                <div>
+                    <h3>Ваша Дорожня Карта Успіху</h3>
+                    <p>0 з 3 кроків виконано</p>
                 </div>
-            </header>
-        </section>
+            </div>
+            <div class="percent-badge">0%</div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" style="width: 0%"></div>
+        </div>
+
+<div class="steps-grid">
+    <div class="step-card">
+        <div class="step-top">
+            <span class="step-icon">💬</span>
+            <span class="step-number">Step 1</span>
+        </div>
+        <h4>Пройти AI Інтерв'ю</h4>
+        <div>
+            <button class="step-link-btn" data-target="ai-interview">Почати →</button>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <span class="step-icon">🎓</span>
+            <span class="step-number">Step 2</span>
+        </div>
+        <h4>Знайти курси на основі інтерв'ю</h4>
+        <button class="step-link-btn" data-target="courses">Почати →</button>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <span class="step-icon">💼</span>
+            <span class="step-number">Step 3</span>
+        </div>
+        <h4>Знайти місце для навчання</h4>
+            <button class="step-link-btn" data-target="education">Почати →</button>
+    </div>
+</div>
+
+<div class="cta-section-card">
+    <div class="cta-large-icon">💬</div>
+    <h2>Почніть Вашу Подорож</h2>
+    <p>Пройдіть AI Інтерв'ю, щоб розблокувати персоналізовані рекомендації з освіти та роботи</p>
+    <button class="btn-primary-dark" data-target="ai-interview">Почати AI Інтерв'ю</button>
+</div>
+
+
+</section>
 
 <section id="auth" class="page">
     <div class="auth-card">
@@ -111,11 +157,25 @@
 </section>
 
         <section id="interview" class="page">
-            <div class="chat-container">
-                <div id="chat-window" class="chat-window"></div>
+            <div class="interview-container">
+                <div id="chat-window" class="chat-window">
+                    <div id="initial-question" class="msg ai-msg">
+                        <strong>Привіт! Давайте розпочнемо ваше інтерв'ю. Першим питанням:</strong><br><br>
+                        <strong>Яку освіту ви здобуваєте?</strong> (наприклад: Комп'ютерні науки, Іноземні мови, Бізнес тощо)
+                    </div>
+                </div>
                 <div class="chat-input-area">
-                    <input type="text" id="chat-input" placeholder="Введіть відповідь...">
-                    <button class="btn-main" style="width: auto;" onclick="sendMessage()" data-key="chat_send">Надіслати</button>
+                    <input type="text" id="chat-input" placeholder="Введіть відповідь..." onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button class="btn-main" style="width: auto;" onclick="sendMessage()">Надіслати</button>
+                </div>
+            </div>
+            <div id="interview-results" class="page-hidden">
+                <div class="results-container">
+                    <h2>Ваш профіль</h2>
+                    <div id="profile-results" class="profile-results-card">
+                        <!-- Results will be loaded here -->
+                    </div>
+                    <button class="btn-main" onclick="resetInterview()">Розпочати заново</button>
                 </div>
             </div>
         </section>
@@ -130,6 +190,15 @@
             <div id="jobs-content" class="cards-grid"></div>
         </section>
 
+        <section id="resume" class="page">
+            <h2 data-key="resume_head">Резюме конструктор</h2>
+            <div id="resume-content" class="cards-grid"></div>
+        </section>
+
+        <section id="courses" class="page">
+            <h2 data-key="courses_head">Резюме конструктор</h2>
+            <div id="courses-content" class="cards-grid"></div>
+        </section>
     </main>
 
     <script src="script.js"></script>
