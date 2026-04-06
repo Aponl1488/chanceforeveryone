@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridge | AI Career Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <nav class="sidebar">
+        <div class="logo">
+            <a href="/">
+                <img src="Image/bridge.png" alt="Bridge" width="250" height="100">
+            </a>
+        </div>
+        <ul class="nav-links" id="main-nav-links">
+            <li onclick="showPage('dashboard')" id="l-home" class="active" data-key="nav_home" data-target="dashboard">Панель</li>
+            <li onclick="handleProtectedAction('interview')" data-key="nav_interview" data-target="ai-interview">AI Інтерв'ю</li>
+            <li onclick="handleProtectedAction('education')" data-key="nav_edu" data-target="education">Освіта & Гранти</li>
+            <li onclick="handleProtectedAction('jobs')" data-key="nav_jobs" data-target="jobs">Пошук роботи</li>
+            <li onclick="handleProtectedAction('resume')" data-key="nav_resume" data-target="resume">AI конструктор резюме</li>
+            <li onclick="handleProtectedAction('courses')" data-key="nav_courses" data-target="courses">Курси</li>
+        </ul>
+        
+                <div class="role-switcher-container">
+        <div class="role-selected" onclick="toggleRoleDropdown()">
+            <span id="current-role-text">Студенту</span>
+            <span class="arrow">▼</span>
+        </div>
+        <ul class="role-dropdown" id="role-dropdown">
+            <li onclick="selectRole('student')">Студенту</li>
+            <li onclick="selectRole('employer')">Роботодавцю</li>
+            <li onclick="selectRole('institution')">Навчальним закладам</li>
+        </ul>
+    </div>
+
+        <div class="lang-switcher">
+            <div class="slider"></div>
+                <button onclick="changeLang('ua')" id="btn-ua">UA</button>
+                <button onclick="changeLang('en')" id="btn-en">EN</button>
+        </div>
+            <div id="auth-status" class="user-profile-link" onclick="handleProtectedAction('profile')">
+                <span data-key="status_guest">Гість</span>
+            </div>
+        </div>
+
+    </nav>
+
+    <main class="main-content">
+        <div class="top-bar">
+    <button class="btn-premium" onclick="openPremiumModal()">✨ Поліпшити до преміуму</button>
+        </div>
+
+<section id="dashboard" class="page active">
+    <div class="dashboard-header">
+        <h1>Ваша Дорожня Карта Успіху</h1>
+    </div>
+
+    <div class="roadmap-main-card">
+        <div class="roadmap-top-row">
+            <div class="roadmap-title">
+                <span class="icon-badge">🎗️</span>
+                <div>
+                    <h3>Ваша Дорожня Карта Успіху</h3>
+                    <p>0 з 3 кроків виконано</p>
+                </div>
+            </div>
+            <div class="percent-badge">0%</div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" style="width: 0%"></div>
+        </div>
+
+<div class="steps-grid">
+    <div class="step-card">
+        <div class="step-top">
+            <span class="step-icon">💬</span>
+            <span class="step-number">Step 1</span>
+        </div>
+        <h4>Пройти AI Інтерв'ю</h4>
+        <div>
+            <button class="step-link-btn" data-target="ai-interview">Почати →</button>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <span class="step-icon">🎓</span>
+            <span class="step-number">Step 2</span>
+        </div>
+        <h4>Знайти курси на основі інтерв'ю</h4>
+        <button class="step-link-btn" data-target="courses">Почати →</button>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <span class="step-icon">💼</span>
+            <span class="step-number">Step 3</span>
+        </div>
+        <h4>Знайти місце для навчання</h4>
+            <button class="step-link-btn" data-target="education">Почати →</button>
+    </div>
+</div>
+
+<div class="cta-section-card">
+    <div class="cta-large-icon">💬</div>
+    <h2>Почніть Вашу Подорож</h2>
+    <p>Пройдіть AI Інтерв'ю, щоб розблокувати персоналізовані рекомендації з освіти та роботи</p>
+    <button class="btn-primary-dark" data-target="ai-interview">Почати AI Інтерв'ю</button>
+</div>
+
+
+</section>
+
+<section id="auth" class="page">
+    <div class="auth-card">
+        <h2 id="auth-title" data-key="auth_title">Реєстрація</h2>
+        <div class="input-group">
+            <input type="text" id="user-name" placeholder="Ваше ім'я">
+            <input type="email" id="user-email" placeholder="Email" required>
+            <input type="password" id="user-pass" placeholder="Пароль" required>
+        </div>
+        <button class="btn-main" id="auth-submit-btn" onclick="handleAuth()" data-key="auth_btn">Створити акаунт</button>
+        
+        <p class="auth-toggle-text" style="margin-top: 15px; font-size: 13px; color: var(--text-dim);">
+            <span id="toggle-desc">Вже маєте акаунт?</span> 
+            <span onclick="toggleAuthMode()" id="toggle-link" style="color: var(--primary); cursor: pointer; font-weight: 600;">Увійти</span>
+        </p>
+    </div>
+</section>
+
+<section id="profile" class="page">
+    <div class="profile-container">
+        
+        <div class="profile-header">
+            <div class="avatar-upload">
+                <div class="avatar-preview">
+                    <img id="profile-img" src="https://via.placeholder.com/150" alt="Avatar">
+                </div>
+                <input type="file" id="image-input" accept="image/*" hidden>
+                <button class="btn-small" onclick="document.getElementById('image-input').click()" style="margin-top:10px;">Змінити фото</button>
+            </div>
+            <div class="profile-info">
+                <h1 id="profile-name-display">Ім'я</h1>
+                <p id="profile-email-display" style="color: var(--bg-dark);">email@example.com</p>
+            </div>
+        </div>
+
+        <div class="profile-grid">
+            <div class="profile-card">
+                <h3 data-key="prof_resume">Резюме</h3>
+                <textarea id="resume-text" placeholder="Опишіть ваш досвід..."></textarea>
+                <button class="btn-main" onclick="saveResume()">Зберегти резюме</button>
+            </div>
+
+            <div class="profile-card">
+                <h3 data-key="prof_courses">Мої курси</h3>
+                <div class="course-stats">
+                    <div style="text-align:center; margin: 20px 0;">
+                        <span class="stat-num" id="completed-count" style="font-size: 32px; color: var(--primary); display:block; font-weight:bold;">0</span>
+                        <small data-key="prof_completed">Пройдено</small>
+                    </div>
+                </div>
+                <ul id="active-courses-list" style="list-style: none; color: var(--text-dim); font-size: 14px;">
+                    </ul>
+            </div>
+        </div>
+
+        <div class="logout-footer">
+            <button class="btn-logout" onclick="logout()" data-key="logout_btn">Вийти з акаунта</button>
+        </div>
+
+    </div>
+</section>
+
+        <section id="interview" class="page">
+            <div class="interview-container">
+                <div class="interview-top-bar">
+                    <h2 data-key="nav_interview">AI Інтерв'ю</h2>
+                    <button class="btn-reset-interview" onclick="confirmReset()">
+                        <span class="icon">🔄</span> <span data-key="reset_btn">Почати спочатку</span>
+                    </button>
+                </div>
+                
+                <div id="chat-window" class="chat-window">
+                    <!-- Тут будуть з'являтися питання -->
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Введіть відповідь..." onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button id="chat-send-btn" class="btn-main" style="width: auto;" onclick="sendMessage()">Надіслати</button>
+                </div>
+            </div>
+
+            <div id="interview-results" class="page-hidden">
+                <div class="results-container">
+                    <div id="profile-results" class="profile-results-card">
+                        <!-- Результати завантажаться сюди -->
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h6 data-key="AI" style="text-align: center;">ШІ генерує впевнені відповіді, але може помилятися</h6>
+            </div>
+
+        </section>
+
+        <section id="education" class="page">
+<div id="education" class="page-content">
+    <div class="courses-header">
+        <h2 data-key="nav_edu">Освіта & Гранти</h2>
+        <div class="courses-controls">
+            <div class="filters-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Університет, фонд або програма..." id="edu-search">
+                </div>
+                <div class="filter-switches">
+                    <label class="switch-container">
+                        <input type="checkbox" id="filter-grants">
+                        <span class="switch-label">Гранти</span>
+                    </label>
+                    <label class="switch-container">
+                        <input type="checkbox" id="filter-internships">
+                        <span class="switch-label">Стажування</span>
+                    </label>
+                    <label class="switch-container">
+                        <input type="checkbox" id="filter-university">
+                        <span class="switch-label">ВНЗ</span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn-history">Мої заявки</button>
+        </div>
+    </div>
+
+        <hr class="hr">
+    <div>
+        <h2>Гарячі пропозиції від спонсорів</h2>
+    </div>
+
+    <div class="edu-slider">
+        <div class="edu-card grant">
+            <div class="edu-main-info">
+                <div class="edu-badge">Грант</div>
+                <div class="edu-icon">🇪🇺</div>
+                <h3>Erasmus+ Mobility</h3>
+                <p class="edu-org">European Commission</p>
+                <div class="edu-tags">
+                    <span>€500 - €800/міс</span>
+                    <span>Європа</span>
+                </div>
+            </div>
+            <div class="edu-details">
+                <p><strong>Опис:</strong> Програма обміну студентами між університетами Європи на 1-2 семестри.</p>
+                <p><strong>Дедлайн:</strong> до 15 травня 2026</p>
+                <button class="btn-apply-edu">Подати заявку</button>
+            </div>
+        </div>
+
+        <div class="edu-card program">
+            <div class="edu-main-info">
+                <div class="edu-badge" style="background: #eef2ff; color: #4338ca;">Програма</div>
+                <div class="edu-icon">💻</div>
+                <h3>Teens in AI 2026</h3>
+                <p class="edu-org">Global AI Initiative</p>
+                <div class="edu-tags">
+                    <span>Безкоштовно</span>
+                    <span>Online</span>
+                </div>
+            </div>
+            <div class="edu-details">
+                <p><strong>Суть:</strong> Хакатон та навчання для підлітків, що створюють рішення на базі AI.</p>
+                <p><strong>Приз:</strong> Менторство від Google та AWS.</p>
+                <button class="btn-apply-edu">Зареєструватися</button>
+            </div>
+        </div>
+
+        <div class="edu-card university">
+            <div class="edu-main-info">
+                <div class="edu-badge" style="background: #fff7ed; color: #c2410c;">Університет</div>
+                <div class="edu-icon">🏛️</div>
+                <h3>Львівська Політехніка</h3>
+                <p class="edu-org">Магістратура</p>
+                <div class="edu-tags">
+                    <span>Бюджет/Контракт</span>
+                    <span>Україна</span>
+                </div>
+            </div>
+            <div class="edu-details">
+                <p><strong>Напрям:</strong> Комп'ютерні науки та системна інженерія.</p>
+                <p><strong>Особливість:</strong> Подвійний диплом з європейськими ВНЗ.</p>
+                <button class="btn-apply-edu">Детальніше</button>
+            </div>
+        </div>
+    </div>
+
+            <hr class="hr">
+    <div>
+        <h2>Гарячі пропозиції від спонсорів</h2>
+    </div>
+
+        <div class="edu-slider">
+        <div class="edu-card grant">
+            <div class="edu-main-info">
+                <div class="edu-badge">Грант</div>
+                <div class="edu-icon">🇪🇺</div>
+                <h3>Erasmus+ Mobility</h3>
+                <p class="edu-org">European Commission</p>
+                <div class="edu-tags">
+                    <span>€500 - €800/міс</span>
+                    <span>Європа</span>
+                </div>
+            </div>
+            <div class="edu-details">
+                <p><strong>Опис:</strong> Програма обміну студентами між університетами Європи на 1-2 семестри.</p>
+                <p><strong>Дедлайн:</strong> до 15 травня 2026</p>
+                <button class="btn-apply-edu">Подати заявку</button>
+            </div>
+        </div>
+
+        <div class="edu-card program">
+            <div class="edu-main-info">
+                <div class="edu-badge" style="background: #eef2ff; color: #4338ca;">Програма</div>
+                <div class="edu-icon">💻</div>
+                <h3>Teens in AI 2026</h3>
+                <p class="edu-org">Global AI Initiative</p>
+                <div class="edu-tags">
+                    <span>Безкоштовно</span>
+                    <span>Online</span>
+                </div>
+            </div>
+            <div class="edu-details">
+                <p><strong>Суть:</strong> Хакатон та навчання для підлітків, що створюють рішення на базі AI.</p>
+                <p><strong>Приз:</strong> Менторство від Google та AWS.</p>
+                <button class="btn-apply-edu">Зареєструватися</button>
+            </div>
+        </div>
+
+        <div class="edu-card university">
+            <div class="edu-main-info">
+                <div class="edu-badge" style="background: #fff7ed; color: #c2410c;">Університет</div>
+                <div class="edu-icon">🏛️</div>
+                <h3>Львівська Політехніка</h3>
+                <p class="edu-org">Магістратура</p>
+                <div class="edu-tags">
+                    <span>Бюджет/Контракт</span>
+                    <span>Україна</span>
+                </div>
+            </div>
+            <div class="edu-details">
+                <p><strong>Напрям:</strong> Комп'ютерні науки та системна інженерія.</p>
+                <p><strong>Особливість:</strong> Подвійний диплом з європейськими ВНЗ.</p>
+                <button class="btn-apply-edu">Детальніше</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+        </section>
+
+        <section id="jobs" class="page">
+            <div id="jobs" class="page-content">
+    <div class="courses-header">
+        <h2 data-key="nav_jobs">Пошук роботи</h2>
+        <div class="courses-controls">
+            <div class="filters-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Посада або компанія..." id="job-search">
+                </div>
+                <div class="filter-switches">
+                    <label class="switch-container">
+                        <input type="checkbox" id="job-remote">
+                        <span class="switch-label">Віддалено</span>
+                    </label>
+                    <label class="switch-container">
+                        <input type="checkbox" id="job-fulltime">
+                        <span class="switch-label">Full-time</span>
+                    </label>
+                    <label class="switch-container">
+                        <input type="checkbox" id="job-intern">
+                        <span class="switch-label">Стажування</span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn-history">Збережені</button>
+        </div>
+    </div>
+
+    <hr class="hr">
+    <div>
+        <h2>Гарячі вакансії</h2>
+    </div>
+
+<div class="jobs-slider">
+    <div class="job-card">
+        <div class="job-main-info">
+            <div class="company-logo">GO</div>
+            <h3>Golang Backend Dev</h3>
+            <p class="company-name">CloudScale Systems</p>
+            <div class="job-tags">
+                <span>$2500 - $3500</span>
+                <span>Remote</span>
+            </div>
+        </div>
+        <div class="job-details">
+            <p><strong>Технології:</strong> Go, PostgreSQL, Docker, gRPC.</p>
+            <p><strong>Задачі:</strong> Розробка мікросервісів для високонавантаженої платформи.</p>
+            <button class="btn-apply">Відгукнутися</button>
+        </div>
+    </div>
+
+    <div class="job-card">
+        <div class="job-main-info">
+            <div class="company-logo" style="background: #f0fdf4; color: #16a34a;">QA</div>
+            <h3>Manual QA Engineer</h3>
+            <p class="company-name">QualityFirst UA</p>
+            <div class="job-tags">
+                <span>$1000 - $1400</span>
+                <span>Київ</span>
+            </div>
+        </div>
+        <div class="job-details">
+            <p><strong>Вимоги:</strong> Досвід тестування Web/Mobile від 1 року, робота з Jira.</p>
+            <p><strong>Бонуси:</strong> Курси англійської, офіс у центрі.</p>
+            <button class="btn-apply">Відгукнутися</button>
+        </div>
+    </div>
+
+    <div class="job-card">
+        <div class="job-main-info">
+            <div class="company-logo" style="background: #fff1f2; color: #e11d48;">HR</div>
+            <h3>IT Recruiter</h3>
+            <p class="company-name">People Talent</p>
+            <div class="job-tags">
+                <span>$1200 + %</span>
+                <span>Гібрид</span>
+            </div>
+        </div>
+        <div class="job-details">
+            <p><strong>Очікування:</strong> Повний цикл найму, активний сорсинг у LinkedIn.</p>
+            <p><strong>Ми пропонуємо:</strong> Необмежений бонус за закриття вакансій.</p>
+            <button class="btn-apply">Відгукнутися</button>
+        </div>
+    </div>
+</div>
+
+        <hr class="hr">
+    <div>
+        <h2>Вакансії</h2>
+    </div>
+
+    <div class="jobs-slider">
+    <div class="job-card">
+        <div class="job-main-info">
+            <div class="company-logo">GO</div>
+            <h3>Golang Backend Dev</h3>
+            <p class="company-name">CloudScale Systems</p>
+            <div class="job-tags">
+                <span>$2500 - $3500</span>
+                <span>Remote</span>
+            </div>
+        </div>
+        <div class="job-details">
+            <p><strong>Технології:</strong> Go, PostgreSQL, Docker, gRPC.</p>
+            <p><strong>Задачі:</strong> Розробка мікросервісів для високонавантаженої платформи.</p>
+            <button class="btn-apply">Відгукнутися</button>
+        </div>
+    </div>
+
+    <div class="job-card">
+        <div class="job-main-info">
+            <div class="company-logo" style="background: #f0fdf4; color: #16a34a;">QA</div>
+            <h3>Manual QA Engineer</h3>
+            <p class="company-name">QualityFirst UA</p>
+            <div class="job-tags">
+                <span>$1000 - $1400</span>
+                <span>Київ</span>
+            </div>
+        </div>
+        <div class="job-details">
+            <p><strong>Вимоги:</strong> Досвід тестування Web/Mobile від 1 року, робота з Jira.</p>
+            <p><strong>Бонуси:</strong> Курси англійської, офіс у центрі.</p>
+            <button class="btn-apply">Відгукнутися</button>
+        </div>
+    </div>
+
+    <div class="job-card">
+        <div class="job-main-info">
+            <div class="company-logo" style="background: #fff1f2; color: #e11d48;">HR</div>
+            <h3>IT Recruiter</h3>
+            <p class="company-name">People Talent</p>
+            <div class="job-tags">
+                <span>$1200 + %</span>
+                <span>Гібрид</span>
+            </div>
+        </div>
+        <div class="job-details">
+            <p><strong>Очікування:</strong> Повний цикл найму, активний сорсинг у LinkedIn.</p>
+            <p><strong>Ми пропонуємо:</strong> Необмежений бонус за закриття вакансій.</p>
+            <button class="btn-apply">Відгукнутися</button>
+        </div>
+    </div>
+</div>
+        </section>
+
+<section id="resume" class="page">
+    <div class="resume-builder-container">
+        <div class="resume-editor">
+            <h2 data-key="resume_head">AI Конструктор резюме</h2>
+            
+            <div class="editor-section">
+                <h3><span class="step-num">1</span> Персональна інформація</h3>
+                <div class="input-grid">
+                    <input type="text" id="res-name" placeholder="Прізвище та Ім'я">
+                    <input type="text" id="res-phone" placeholder="Телефон">
+                    <input type="email" id="res-email" placeholder="Email">
+                    <input type="text" id="res-location" placeholder="Місто проживання">
+                </div>
+            </div>
+
+            <div class="editor-section">
+                <h3><span class="step-num">2</span> Освіта</h3>
+                <div class="input-grid">
+                    <input type="text" id="res-edu-school" placeholder="Навчальний заклад">
+                    <input type="text" id="res-edu-degree" placeholder="Ступінь/Спеціальність">
+                </div>
+            </div>
+
+            <div class="editor-section">
+                <h3><span class="step-num">3</span> Досвід та навички</h3>
+                <textarea id="resume-text" placeholder="Опишіть ваші ключові досягнення та професійні навички..." rows="8"></textarea>
+            </div>
+
+            <div class="editor-section">
+                <h3><span class="step-num">4</span>Резюме(опціонально)</h3>
+                <textarea id="resume-text" placeholder="Ваша версія резюме" rows="8"></textarea>
+            </div>
+
+            <div class="editor-section">
+    <div class="photo-upload-wrapper">
+        <div class="photo-preview-circle" id="photo-preview">
+            <span>ФОТО</span>
+        </div>
+        <div class="photo-controls">
+            <label for="res-photo" class="btn-upload-label">
+                <span class="icon">📁</span> Завантажити фото
+            </label>
+            <input type="file" id="res-photo" accept="image/*" onchange="previewImage(event)" style="display: none;">
+            <p class="hint">Рекомендовано: квадратне фото, до 2МБ</p>
+        </div>
+    </div>
+</div>
+
+            <div class="ai-actions-grid">
+                <button class="btn-ai-magic" onclick="alert('Функціонал у розробці')">✨ AI Генерація</button>
+                <button class="btn-ai-outline" onclick="alert('Функціонал у розробці')">🪄 Вдосконалити</button>
+            </div>
+        </div>        
+        </div>
+    </div>
+</section>
+
+
+
+        <section id="courses" class="page">
+<div id="courses" class="page-content">
+    <div class="courses-header">
+        <h2>Мої курси</h2>
+        <div class="courses-controls">
+            <div class="filters-container">
+                <div class="search-box">
+                <input type="text" placeholder="Пошук за назвою..." id="course-search">
+            </div>
+            
+            <div class="filter-switches">
+                <label class="switch-container">
+                    <input type="checkbox" id="filter-saved">
+                    <span class="switch-label">Збережені</span>
+                </label>
+                <label class="switch-container">
+                    <input type="checkbox" id="filter-completed">
+                    <span class="switch-label">Пройдені</span>
+                </label>
+                <label class="switch-container">
+                    <input type="checkbox" id="filter-ongoing">
+                    <span class="switch-label">Ще проходжу</span>
+                </label>
+            </div>
+        </div>
+            <button class="btn-history">Історія</button>
+        </div>
+</div>
+            <hr class="hr">
+
+            <div>
+                <h2>Преміум курси</h2>
+            </div>
+
+    <div class="courses-slider">
+        <div class="course-card">
+            <div class="course-badge">Frontend</div>
+            <div class="course-info">
+                <h3>Основи React.js</h3>
+                <p>Поглиблене вивчення компонентів та хуків</p>
+                <div class="course-footer">
+                    <span>12 годин</span>
+                    <span class="rating">★ 4.9</span>
+                </div>
+            </div>
+        </div>
+        <div class="course-card">
+            <div class="course-badge">UI/UX</div>
+            <div class="course-info">
+                <h3>Дизайн-системи у Figma</h3>
+                <p>Створення масштабованих компонентів</p>
+                <div class="course-footer">
+                    <span>8 годин</span>
+                    <span class="rating">★ 4.8</span>
+                </div>
+            </div>
+        </div>
+        <div class="course-card">
+            <div class="course-badge">Soft Skills</div>
+            <div class="course-info">
+                <h3>Підготовка до співбесіди</h3>
+                <p>Як впевнено відповідати на запитання</p>
+                <div class="course-footer">
+                    <span>5 годин</span>
+                    <span class="rating">★ 5.0</span>
+                </div>
+            </div>
+        </div>
+        <div class="course-card">
+            <div class="course-badge">AI</div>
+            <div class="course-info">
+                <h3>Prompt Engineering</h3>
+                <p>Ефективна робота з нейромережами</p>
+                <div class="course-footer">
+                    <span>10 годин</span>
+                    <span class="rating">★ 4.7</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="" class="a">Нема преміуму? Придбайте прямо зараз і заробляйте більше рейтингу!</a>
+
+    <hr class="hr">
+            <div>
+                <h2>Інші курси</h2>
+            </div>
+
+    <div class="courses-slider">
+        <div class="course-card">
+            <div class="course-badge">Frontend</div>
+            <div class="course-info">
+                <h3>Основи React.js</h3>
+                <p>Поглиблене вивчення компонентів та хуків</p>
+                <div class="course-footer">
+                    <span>12 годин</span>
+                    <span class="rating">★ 4.9</span>
+                </div>
+            </div>
+        </div>
+        <div class="course-card">
+            <div class="course-badge">UI/UX</div>
+            <div class="course-info">
+                <h3>Дизайн-системи у Figma</h3>
+                <p>Створення масштабованих компонентів</p>
+                <div class="course-footer">
+                    <span>8 годин</span>
+                    <span class="rating">★ 4.8</span>
+                </div>
+            </div>
+        </div>
+        <div class="course-card">
+            <div class="course-badge">Soft Skills</div>
+            <div class="course-info">
+                <h3>Підготовка до співбесіди</h3>
+                <p>Як впевнено відповідати на запитання</p>
+                <div class="course-footer">
+                    <span>5 годин</span>
+                    <span class="rating">★ 5.0</span>
+                </div>
+            </div>
+        </div>
+        <div class="course-card">
+            <div class="course-badge">AI</div>
+            <div class="course-info">
+                <h3>Prompt Engineering</h3>
+                <p>Ефективна робота з нейромережами</p>
+                <div class="course-footer">
+                    <span>10 годин</span>
+                    <span class="rating">★ 4.7</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        </section>
+
+<section id="emp-dashboard" class="page">
+    <div class="emp-banner">
+        <div class="banner-content">
+            <h2>Ваш огляд за сьогодні</h2>
+            <div class="banner-stats">
+                <div class="b-stat-item">
+                    <span class="b-icon">👥</span>
+                    <p>На вашу інформацію відгукнулось: <strong>24 кандидати</strong></p>
+                </div>
+                <div class="b-stat-item">
+                    <span class="b-icon">📩</span>
+                    <p>Маєте <strong>8 непрочитаних</strong> повідомлень</p>
+                </div>
+                <div class="b-stat-item">
+                    <span class="b-icon">🎯</span>
+                    <p>На вашу вакансію знайдено <strong>топ-5 працівників</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vacancies-section">
+        <h3>Ваші вакансії</h3>
+        <div class="vacancies-grid">
+            <div class="vacancy-card">
+                <div class="v-tag">Активна</div>
+                <h4>Frontend Developer</h4>
+                <p>Відгукнулось: <strong>12 людей</strong></p>
+                <button class="btn-text">Детальніше →</button>
+            </div>
+            <div class="vacancy-card">
+                <div class="v-tag">Активна</div>
+                <h4>UI/UX Designer</h4>
+                <p>Відгукнулось: <strong>8 людей</strong></p>
+                <button class="btn-text">Детальніше →</button>
+            </div>
+            <div class="vacancy-card create-new">
+                <div class="plus-icon">+</div>
+                <h4>Створити вакансію</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="employer-rating">
+        <div class="rating-info">
+            <span class="star-icon">🏆</span>
+            <p>Топ роботодавців цього місяця (Ви на <strong>4-му місці</strong>)</p>
+        </div>
+        <button class="btn-main">Переглянути рейтинг</button>
+    </div>
+</section>
+
+
+<section id="vacancies" class="page">
+    <div class="job-post-container">
+        <div class="page-header">
+            <h2>Розмістити вакансію</h2>
+            <p class="subtitle">Заповніть форму нижче, щоб опублікувати нову пропозицію роботи</p>
+        </div>
+
+        <form class="job-post-form">
+            <div class="form-grid">
+                <div class="form-column">
+                    <div class="input-group">
+                        <label for="job-title">Назва посади</label>
+                        <input type="text" id="job-title" placeholder="Наприклад: Junior Frontend Developer">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="job-category">Категорія</label>
+                        <select id="job-category">
+                            <option value="it">IT / Розробка</option>
+                            <option value="design">Дизайн / Графіка</option>
+                            <option value="marketing">Маркетинг / Реклама</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="job-salary">Заробітна плата</label>
+                        <input type="text" id="job-salary" placeholder="Наприклад: 25 000 - 35 000 грн">
+                    </div>
+                </div>
+
+                <div class="form-column">
+                    <div class="input-group">
+                        <label for="job-type">Тип зайнятості</label>
+                        <select id="job-type">
+                            <option value="full">Повна зайнятість</option>
+                            <option value="part">Часткова зайнятість</option>
+                            <option value="remote">Віддалено</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="job-desc">Опис вакансії та вимоги</label>
+                        <textarea id="job-desc" rows="5" placeholder="Розкажіть про обов'язки, технології та очікування від кандидата..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="btn-main submit-job-btn">Розмістити вакансію</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section id="search-talents" class="page">
+    <div class="section-header" style="padding: 20px 20px 0 20px;">
+        <h2>Топ-працівників цього місяця</h2>
+        <p style="color: var(--text-dim); font-size: 14px;">Знайдіть найкращих спеціалістів за рейтингом AI Bridge</p>
+    </div>
+
+    <div class="talents-container">
+        <div class="talents-main">
+            <div class="talents-list">
+                <div class="talent-card">
+                    <div class="talent-avatar"></div>
+                    <div class="talent-info">
+                        <div class="t-name-row">
+                            <h4>Олександр Коваленко</h4>
+                            <span class="t-rating">⭐ 4.9</span>
+                        </div>
+                        <p class="t-role">UI/UX Designer • Middle</p>
+                        <div class="t-stats">
+                            <div class="stat-badge">Пройдено курсів: <strong>14</strong></div>
+                            <div class="stat-badge premium">Преміум курси: <strong>6</strong></div>
+                        </div>
+                    </div>
+                    <button class="btn-main">Профіль</button>
+                </div>
+                </div>
+        </div>
+
+        <aside class="filters-sidebar">
+            <h3>Фільтри</h3>
+            <div class="filter-group">
+                <label>Категорія</label>
+                <select class="custom-select">
+                    <option>Дизайн</option>
+                    <option>Розробка</option>
+                    <option>Маркетинг</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Рейтинг (мін.)</label>
+                <input type="range" min="1" max="5" step="0.1" class="custom-range">
+            </div>
+            <div class="filter-group" style="display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" id="prem-only">
+                <label for="prem-only" style="margin-bottom: 0;">Тільки преміум</label>
+            </div>
+            <button class="btn-apply1">Застосувати</button>
+        </aside>
+    </div>
+</section>
+
+<section id="inst-dashboard" class="page">
+    <h2>Навчальні заклади: Головна</h2>
+    
+    <div class="stats-banner">
+        <div class="stat-item">
+            <span class="stat-label">Ваша реклама була показана:</span>
+            <span class="stat-value">1488 разів</span>
+            <p>Один ваш студент попав до топ працівників цього місяця</p>
+        </div>
+    </div>
+
+            <h3>Рейтинг учнів</h3>
+    <section class="rating-section">
+        <div class="rating-list">
+            <div class="rating-card"><span>Бєлка Єгор</span> <strong>69</strong></div>
+            <div class="rating-card"><span>Дейдей Тимофій</span> <strong>67</strong></div>
+            <div class="rating-card"><span>Могильна Мілана</span> <strong>52</strong></div>
+            <div class="rating-card"><span>Ніколаєнкова Марія</span> <strong>42</strong></div>
+        </div>
+
+        <div>
+        <button class="btn-promo">Замовити рекламу</button>
+        </div>
+    </section>
+
+</section>
+
+<section id="students-list" class="page">
+    <h2>Навчальні заклади: Студенти</h2>
+    
+    <div class="students-content-wrapper">
+        <div class="students-grid">
+            <div class="student-card">
+                <div class="student-avatar-placeholder"></div>
+                <div class="student-info">
+                    <h4>Приклад Студента</h4>
+                    <p>Курс: 2 | Група: АКІТ</p>
+                    <div class="rating-badge">Рейтинг: 95</div>
+                </div>
+            </div>
+            </div>
+
+        <aside class="filter-sidebar">
+            <h3>Фільтри</h3>
+            <div class="filter-group">
+                <label>Курс</label>
+                <select id="filter-course" class="filter-select">
+                    <option value="">Всі</option>
+                    <option value="1">1 курс</option>
+                    <option value="2">2 курс</option>
+                    <option value="3">3 курс</option>
+                    <option value="4">4 курс</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Група</label>
+                <select id="filter-group" class="filter-select">
+                    <option value="">Всі</option>
+                    <option value="АКІТ">АКІТ</option>
+                    <option value="КІ">КІ</option>
+                    <option value="ПМ">ПМ</option>
+                    <option value="Е">Е</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Сортування</label>
+                <select id="filter-rating" class="filter-select">
+                    <option value="desc">Рейтинг: ↓</option>
+                    <option value="asc">Рейтинг: ↑</option>
+                </select>
+            </div>
+        </aside>
+    </div>
+</section>
+</div>
+
+</section>
+    </main>
+
+
+    <div id="premium-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closePremiumModal()">&times;</span>
+        <h2>Оберіть свій план Premium</h2>
+        <div class="premium-grid">
+            <div class="premium-card">
+                <h3>Base</h3>
+                <p class="price">₴0 <span>/міс</span></p>
+                <ul>
+                    <li>✅ Базове AI Інтерв'ю</li>
+                    <li>✅ Пошук вакансій</li>
+                    <li>❌ Пріоритетна підтримка</li>
+                </ul>
+                <button class="btn-main">Поточний план</button>
+            </div>
+            <div class="premium-card featured">
+                <div class="badge">Популярно</div>
+                <h3>Pro</h3>
+                <p class="price">₴299 <span>/міс</span></p>
+                <ul>
+                    <li>✅ Безлімітне AI Інтерв'ю</li>
+                    <li>✅ Розширений конструктор резюме</li>
+                    <li>✅ Аналіз шансів на вакансію</li>
+                </ul>
+                <button class="btn-main">Спробувати Pro</button>
+            </div>
+            <div class="premium-card">
+                <h3>Expert</h3>
+                <p class="price">₴599 <span>/міс</span></p>
+                <ul>
+                    <li>✅ Все з плану Pro</li>
+                    <li>✅ Персональний коуч 24/7</li>
+                    <li>✅ Доступ до закритих грантів</li>
+                </ul>
+                <button class="btn-main">Купити Expert</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>
