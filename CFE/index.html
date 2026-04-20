@@ -111,11 +111,25 @@
 </section>
 
         <section id="interview" class="page">
-            <div class="chat-container">
-                <div id="chat-window" class="chat-window"></div>
+            <div class="interview-container">
+                <div id="chat-window" class="chat-window">
+                    <div id="initial-question" class="msg ai-msg">
+                        <strong>Привіт! Давайте розпочнемо ваше інтерв'ю. Першим питанням:</strong><br><br>
+                        <strong>Яку освіту ви здобуваєте?</strong> (наприклад: Комп'ютерні науки, Іноземні мови, Бізнес тощо)
+                    </div>
+                </div>
                 <div class="chat-input-area">
-                    <input type="text" id="chat-input" placeholder="Введіть відповідь...">
-                    <button class="btn-main" style="width: auto;" onclick="sendMessage()" data-key="chat_send">Надіслати</button>
+                    <input type="text" id="chat-input" placeholder="Введіть відповідь..." onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button class="btn-main" style="width: auto;" onclick="sendMessage()">Надіслати</button>
+                </div>
+            </div>
+            <div id="interview-results" class="page-hidden">
+                <div class="results-container">
+                    <h2>Ваш профіль</h2>
+                    <div id="profile-results" class="profile-results-card">
+                        <!-- Results will be loaded here -->
+                    </div>
+                    <button class="btn-main" onclick="resetInterview()">Розпочати заново</button>
                 </div>
             </div>
         </section>
